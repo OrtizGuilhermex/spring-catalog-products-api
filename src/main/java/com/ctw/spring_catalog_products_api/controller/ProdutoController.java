@@ -4,6 +4,8 @@ import com.ctw.spring_catalog_products_api.dto.produto.ProdutoRequestDto;
 import com.ctw.spring_catalog_products_api.dto.produto.ProdutoResponseDto;
 import com.ctw.spring_catalog_products_api.service.ProdutoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,37 +18,43 @@ public class ProdutoController {
     private final ProdutoService produtoService;
 
     @PostMapping
-    public ProdutoResponseDto cadastrarProduto(
+    public ResponseEntity<ProdutoResponseDto> cadastrarProduto(
             @RequestBody ProdutoRequestDto produtoRequestDto,
             @RequestParam Long categoriaId
     ){
-        return produtoService.cadastrarProduto(produtoRequestDto, categoriaId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(produtoService.cadastrarProduto(produtoRequestDto, categoriaId));
     }
 
     @GetMapping
-    public List<ProdutoResponseDto> listarProdutos(){
-        return produtoService.listarProdutos();
+    public ResponseEntity<List<ProdutoResponseDto>> listarProdutos(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(produtoService.listarProdutos());
+
     }
 
     @GetMapping("/categoria/{nome}")
-    public List<ProdutoResponseDto> listarProdutosPorCategoria(
+    public ResponseEntity<List<ProdutoResponseDto>> listarProdutosPorCategoria(
             @RequestParam String nomeCategoria
     ){
-        return produtoService.listarProdutosPorCategoria(nomeCategoria);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(produtoService.listarProdutosPorCategoria(nomeCategoria));
     }
 
     @GetMapping
-    public List<ProdutoResponseDto> listarProdutosPorNome(
+    public ResponseEntity<List<ProdutoResponseDto>> listarProdutosPorNome(
             @RequestParam String nome
     ){
-        return produtoService.listarProdutosPorNome(nome);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(produtoService.listarProdutosPorNome(nome));
     }
 
-    @GetMapping
-    public ProdutoResponseDto listarProdutoPorIdCategoriaNome(
+    @GetMapping()
+    public ResponseEntity<ProdutoResponseDto> listarProdutoPorIdCategoriaNome(
             @RequestParam Long id,
             @RequestParam String nomeCategoria
     ){
-        return produtoService.listarProdutoPorIdCategoriaNome(id,nomeCategoria);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(produtoService.listarProdutoPorIdCategoriaNome(id,nomeCategoria));
     }
 }
