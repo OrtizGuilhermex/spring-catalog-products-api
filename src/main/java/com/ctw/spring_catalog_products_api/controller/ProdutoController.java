@@ -1,0 +1,50 @@
+package com.ctw.spring_catalog_products_api.controller;
+
+import com.ctw.spring_catalog_products_api.dto.produto.ProdutoRequestDto;
+import com.ctw.spring_catalog_products_api.dto.produto.ProdutoResponseDto;
+import com.ctw.spring_catalog_products_api.service.ProdutoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/produtos")
+@RequiredArgsConstructor
+public class ProdutoController {
+
+    private final ProdutoService produtoService;
+
+    public ProdutoResponseDto cadastrarProduto(
+            @RequestBody ProdutoRequestDto produtoRequestDto,
+            @RequestParam Long categoriaId
+    ){
+        return produtoService.cadastrarProduto(produtoRequestDto, categoriaId);
+    }
+
+    public List<ProdutoResponseDto> listarProdutos(){
+        return produtoService.listarProdutos();
+    }
+
+    public List<ProdutoResponseDto> listarProdutosPorCategoria(
+            @RequestParam String nomeCategoria
+    ){
+        return produtoService.listarProdutosPorCategoria(nomeCategoria);
+    }
+
+    public List<ProdutoResponseDto> listarProdutosPorNome(
+            @RequestParam String nome
+    ){
+        return produtoService.listarProdutosPorNome(nome);
+    }
+
+    public ProdutoResponseDto listarProdutoPorIdCategoriaNome(
+            @RequestParam Long id,
+            @RequestParam String nomeCategoria
+    ){
+        return produtoService.listarProdutoPorIdCategoriaNome(id,nomeCategoria);
+    }
+}
